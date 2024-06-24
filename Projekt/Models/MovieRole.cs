@@ -22,6 +22,6 @@ namespace Projekt.Models
         public string RoleName { get; set; }
         public string PersonName { get; set; }
         public int MovieId { get; set; }
-        public RoleType Type { get; set; }
+        public RoleType RoleType { get; set; }
     }
 }
