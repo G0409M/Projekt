@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Projekt.Helpers;
 using Projekt.Models;
 using Projekt.Persistance;
 
@@ -15,7 +16,7 @@ class Program
 
         using (var unitOfWork = new ProjektUnitOfWork(new ProjektDbContext(options)))
         {
-            // To Do: tutaj umiescic kod testujący
+           
 
         }
     }

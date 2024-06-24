@@ -12,12 +12,9 @@ namespace Projekt.Persistance
         public static void SeedData(ProjektDbContext context)
         {
             SeedMovies(context);
-
-            SeedMovieRoles(context);
-
-            //SeedReviews(context);
-
             SeedUsers(context);
+            SeedMovieRoles(context);
+            SeedReviews(context);
         }
 
         private static void SeedMovies(ProjektDbContext context)
@@ -55,6 +52,40 @@ namespace Projekt.Persistance
                 };
 
                 context.Movies.AddRange(movies);
+                context.SaveChanges();
+            }
+        }
+
+        private static void SeedUsers(ProjektDbContext context)
+        {
+            if (!context.Users.Any())
+            {
+                var users = new List<User>
+                {
+                    new User
+                    {
+                        Id = 1,
+                        Username = "john.doe",
+                        Email = "john.doe@example.com",
+                        PasswordHash = "hashedpassword1"
+                    },
+                    new User
+                    {
+                        Id = 2,
+                        Username = "jane.smith",
+                        Email = "jane.smith@example.com",
+                        PasswordHash = "hashedpassword2"
+                    },
+                    new User
+                    {
+                        Id = 3,
+                        Username = "jack.jones",
+                        Email = "jack.jones@example.com",
+                        PasswordHash = "hashedpassword3"
+                    }
+                };
+
+                context.Users.AddRange(users);
                 context.SaveChanges();
             }
         }
@@ -100,96 +131,60 @@ namespace Projekt.Persistance
             }
         }
 
-        //private static void SeedReviews(ProjektDbContext context)
-        //{
-        //    if (!context.Reviews.Any())
-        //    {
-        //        var movies = context.Movies.ToList();
-        //        var users = context.Users.ToList();
-
-        //        var theShawshankRedemption = movies.FirstOrDefault(m => m.Title == "The Shawshank Redemption");
-        //        var theGodfather = movies.FirstOrDefault(m => m.Title == "The Godfather");
-        //        var theDarkKnight = movies.FirstOrDefault(m => m.Title == "The Dark Knight");
-
-        //        var johnDoe = users.FirstOrDefault(u => u.Username == "john.doe");
-        //        var janeSmith = users.FirstOrDefault(u => u.Username == "jane.smith");
-        //        var jackJones = users.FirstOrDefault(u => u.Username == "jack.jones");
-
-        //        if (theShawshankRedemption == null || theGodfather == null || theDarkKnight == null || johnDoe == null || janeSmith == null || jackJones == null)
-        //        {
-        //            throw new Exception("One or more required movies or users were not found in the database.");
-        //        }
-
-        //        var reviews = new List<Review>
-        //{
-        //    new Review
-        //    {
-        //        Id = 1,
-        //        MovieId = theShawshankRedemption.Id_movie,
-        //        UserId = johnDoe.Id,
-        //        Comment = "A masterpiece!",
-        //        Rating = 5,
-        //        DateCreated = DateTime.Now
-        //    },
-        //    new Review
-        //    {
-        //        Id = 2,
-        //        MovieId = theGodfather.Id_movie,
-        //        UserId = janeSmith.Id,
-        //        Comment = "Excellent movie.",
-        //        Rating = 4,
-        //        DateCreated = DateTime.Now.AddHours(-1)
-        //    },
-        //    new Review
-        //    {
-        //        Id = 3,
-        //        MovieId = theDarkKnight.Id_movie,
-        //        UserId = jackJones.Id,
-        //        Comment = "Awesome!",
-        //        Rating = 5,
-        //        DateCreated = DateTime.Now.AddHours(-2)
-        //    }
-        //};
-
-        //        context.Reviews.AddRange(reviews);
-        //        context.SaveChanges();
-        //    }
-        //}
-
-
-        private static void SeedUsers(ProjektDbContext context)
+        private static void SeedReviews(ProjektDbContext context)
         {
-            if (!context.Users.Any())
+            if (!context.Reviews.Any())
             {
-                var users = new List<User>
-        {
-            new User
-            {
-                Id = 1,
-                Username = "john.doe",
-                Email = "john.doe@example.com",
-                PasswordHash = "hashedpassword1"
-            },
-            new User
-            {
-                Id = 2,
-                Username = "jane.smith",
-                Email = "jane.smith@example.com",
-                PasswordHash = "hashedpassword2"
-            },
-            new User
-            {
-                Id = 3,
-                Username = "jack.jones",
-                Email = "jack.jones@example.com",
-                PasswordHash = "hashedpassword3"
-            }
-        };
+                var movies = context.Movies.ToList();
+                var users = context.Users.ToList();
 
-                context.Users.AddRange(users);
+                var theShawshankRedemption = movies.FirstOrDefault(m => m.Title == "The Shawshank Redemption");
+                var theGodfather = movies.FirstOrDefault(m => m.Title == "The Godfather");
+                var theDarkKnight = movies.FirstOrDefault(m => m.Title == "The Dark Knight");
+
+                var johnDoe = users.FirstOrDefault(u => u.Username == "john.doe");
+                var janeSmith = users.FirstOrDefault(u => u.Username == "jane.smith");
+                var jackJones = users.FirstOrDefault(u => u.Username == "jack.jones");
+
+                if (theShawshankRedemption == null || theGodfather == null || theDarkKnight == null || johnDoe == null || janeSmith == null || jackJones == null)
+                {
+                    throw new Exception("One or more required movies or users were not found in the database.");
+                }
+
+                var reviews = new List<Review>
+                {
+                    new Review
+                    {
+                        Id = 1,
+                        MovieId = theShawshankRedemption.Id_movie,
+                        UserId = johnDoe.Id,
+                        Comment = "A masterpiece!",
+                        Rating = 5,
+                        DateCreated = DateTime.Now
+                    },
+                    new Review
+                    {
+                        Id = 2,
+                        MovieId = theGodfather.Id_movie,
+                        UserId = janeSmith.Id,
+                        Comment = "Excellent movie.",
+                        Rating = 4,
+                        DateCreated = DateTime.Now.AddHours(-1)
+                    },
+                    new Review
+                    {
+                        Id = 3,
+                        MovieId = theDarkKnight.Id_movie,
+                        UserId = jackJones.Id,
+                        Comment = "Awesome!",
+                        Rating = 5,
+                        DateCreated = DateTime.Now.AddHours(-2)
+                    }
+                };
+
+                context.Reviews.AddRange(reviews);
                 context.SaveChanges();
             }
         }
-
     }
 }
