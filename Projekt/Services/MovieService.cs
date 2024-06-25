@@ -95,5 +95,10 @@ namespace Projekt.Services
 
             _uow.Commit();
         }
+
+        public bool IsInUse(string title)
+        {
+            return _uow.MovieRepository.GetAll().Any(m => m.Title == title);
+        }
     }
 }
