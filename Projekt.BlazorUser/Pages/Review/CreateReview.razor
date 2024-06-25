@@ -1,0 +1,51 @@
+﻿@using Blazored.FluentValidation
+
+<PageTitle>Create Review</PageTitle>
+<h1>Create Review</h1>
+
+<EditForm Model="@_review" OnValidSubmit="@CreateReview">
+    <FluentValidationValidator @ref="_fluentValidationValidator" DisableAssemblyScanning="@true" />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Movie ID: </label>
+        <InputText @bind-Value="@_review.MovieId" class="form-control" />
+        <ValidationMessage For="@(() => _review.MovieId)" />
+    </div>
+    <div class="form-group">
+        <label>User ID: </label>
+        <InputText @bind-Value="@_review.UserId" class="form-control" />
+        <ValidationMessage For="@(() => _review.UserId)" />
+    </div>
+    <div class="form-group">
+        <label>Comment: </label>
+        <InputNumber @bind-Value="@_review.Comment" class="form-control" />
+        <ValidationMessage For="@(() => _review.Comment)" />
+    </div>
+    <div class="form-group">
+        <label>Rating: </label>
+        <InputNumber @bind-Value="@_review.Rating" class="form-control" />
+        <ValidationMessage For="@(() => _review.Rating)" />
+    </div
+    <br />
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit">Create</button>
+        <button @onclick="CancelCreate" class="btn btn-secondary" type="button">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    private FluentValidationValidator? _fluentValidationValidator;
+    private CreateReviewDto _review = new CreateReviewDto();
+
+    private void CreateReview()
+    {
+        _movieRoleService.Create(_review);
+        _navigationManager.NavigateTo("/reviews");
+    }
+
+    private void CancelCreate()
+    {
+        _navigationManager.NavigateTo("/reviews");
+    }
+}
