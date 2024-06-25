@@ -1,8 +1,9 @@
-﻿@* @page "/movies/edit/{id:int}"
+﻿@page "/movies/edit/{id:int}"
 @using Projekt.SharedKernel.Dto.Movie
 @inject IMovieService _movieService
 @inject NavigationManager _navigationManager
 @using Blazored.FluentValidation
+@using Projekt.Domain.Models
 
 <PageTitle>Edit Movie</PageTitle>
 <h1>Edit Movie</h1>
@@ -28,7 +29,7 @@
     </div>
     <div class="form-group">
         <label>Length (minutes): </label>
-        <InputNumber @bind-Value="_movie.FilmLength.TotalMinutes" class="form-control" />
+        <InputNumber @bind-Value="_movie.FilmLength" class="form-control" />
         <ValidationMessage For="@(() => _movie.FilmLength)" />
     </div>
     <div class="form-group">
@@ -61,7 +62,7 @@
                 Id = movie.Id,
                 Title = movie.Title,
                 Genre = movie.Genre,
-                FilmLength = TimeSpan.FromMinutes(movie.FilmLength), // Assuming movie.FilmLength is in minutes
+                FilmLength = movie.FilmLength, // Assuming movie.FilmLength is in minutes
                 ReleaseDate = movie.ReleaseDate
             };
     }
@@ -77,4 +78,3 @@
         _navigationManager.NavigateTo("/movies");
     }
 }
- *@

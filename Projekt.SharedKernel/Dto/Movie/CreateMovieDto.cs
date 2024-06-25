@@ -9,7 +9,7 @@ namespace Projekt.SharedKernel.Dto.Movie
 {
     public class CreateMovieDto
     {
-        public TimeSpan FilmLength { get; set; }
+        public double FilmLength { get; set; }
         public string Title { get; set; }
         public MovieGenre Genre { get; set; }
         public DateTime ReleaseDate { get; set; }

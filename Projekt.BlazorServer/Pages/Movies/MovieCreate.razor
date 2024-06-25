@@ -1,7 +1,8 @@
-﻿@* @page "/movies/create"
+﻿@page "/movies/create"
 @using Projekt.SharedKernel.Dto.Movie
 @inject IMovieService _movieService
 @inject NavigationManager _navigationManager
+@using Projekt.Domain.Models
 
 @using Blazored.FluentValidation
 
@@ -29,7 +30,7 @@
     </div>
     <div class="form-group">
         <label>Length (minutes): </label>
-        <InputNumber @bind-Value="@_movie.FilmLength.TotalMinutes" class="form-control" />
+        <InputNumber @bind-Value="@_movie.FilmLength" class="form-control" />
         <ValidationMessage For="@(() => _movie.FilmLength)" />
     </div>
     <div class="form-group">
@@ -59,4 +60,4 @@
         _navigationManager.NavigateTo("/movies");
     }
 }
- *@
+ 

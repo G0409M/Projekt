@@ -10,7 +10,7 @@ namespace Projekt.SharedKernel.Dto.Movie
     public class UpdateMovieDto
     {
         public int Id { get; set; }
-        public TimeSpan FilmLength { get; set; }
+        public double FilmLength { get; set; }
         public string Title { get; set; }
         public MovieGenre Genre { get; set; }
         public DateTime ReleaseDate { get; set; }
