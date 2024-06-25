@@ -3,6 +3,9 @@
 @using FluentValidation.Blazor
 @inject IMovieService _movieService
 @inject NavigationManager _navigationManager
+@using Projekt.Domain.Models
+
+@using Blazored.FluentValidation
 
 <PageTitle>Create Movie</PageTitle>
 <h1>Create Movie</h1>
@@ -28,7 +31,11 @@
     </div>
     <div class="form-group">
         <label>Length (minutes): </label>
+<<<<<<< HEAD
         <InputNumber @bind-Value="_movie.FilmLength.TotalMinutes" class="form-control" />
+=======
+        <InputNumber @bind-Value="@_movie.FilmLength" class="form-control" />
+>>>>>>> 5da72651587f7a11bc265faca4c96fde72e736c4
         <ValidationMessage For="@(() => _movie.FilmLength)" />
     </div>
     <div class="form-group">
@@ -58,3 +65,7 @@
         _navigationManager.NavigateTo("/movies");
     }
 }
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> 5da72651587f7a11bc265faca4c96fde72e736c4

@@ -47,7 +47,12 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<DataSeeder>();
 
+// Dodaj tê us³ugê w metodzie ConfigureServices
+builder.Services.AddTransient<Func<IMovieService>>(serviceProvider => serviceProvider.GetRequiredService<IMovieService>);
+
+// Rejestracja walidatora
 builder.Services.AddScoped<IValidator<CreateMovieDto>, RegisterCreateMovieDtoValidator>();
+
 
 var app = builder.Build();
 

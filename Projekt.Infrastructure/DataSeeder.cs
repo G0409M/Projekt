@@ -38,7 +38,7 @@ namespace Projekt.Infrastructure
                     {
                         Id_movie = 1,
                         Title = "The Shawshank Redemption",
-                        FilmLength = TimeSpan.FromMinutes(142),
+                        FilmLength = 142,
                         Genre = MovieGenre.Criminal,
                         ReleaseDate = new DateTime(1994, 10, 14),
                     },
@@ -47,7 +47,7 @@ namespace Projekt.Infrastructure
                     {
                         Id_movie = 2,
                         Title = "The Godfather",
-                        FilmLength = TimeSpan.FromMinutes(175),
+                        FilmLength = 175,
                         Genre = MovieGenre.Horror,
                         ReleaseDate = new DateTime(1972, 3, 24),
                     },
@@ -56,7 +56,7 @@ namespace Projekt.Infrastructure
                     {
                         Id_movie = 3,
                         Title = "The Dark Knight",
-                        FilmLength = TimeSpan.FromMinutes(152),
+                        FilmLength = 152,
                         Genre = MovieGenre.Action,
                         ReleaseDate = new DateTime(2008, 7, 18),
                     },
