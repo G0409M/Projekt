@@ -1,0 +1,74 @@
+﻿@page "/reviews/edit/{id:int}"
+@using Projekt.SharedKernel.Dto.Review
+@inject IReviewService _reviewService
+@inject NavigationManager _navigationManager
+@using Blazored.FluentValidation
+@using Projekt.Domain.Models
+
+<PageTitle>Edit Review</PageTitle>
+<h1>Edit Review</h1>
+
+<EditForm Model="@_review" OnValidSubmit="@UpdateReview">
+    <FluentValidationValidator @ref="_fluentValidationValidator" DisableAssemblyScanning="@true" />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Movie ID: </label>
+        <InputText @bind-Value="@_review.MovieId" class="form-control" />
+        <ValidationMessage For="@(() => _review.MovieId)" />
+    </div>
+    <div class="form-group">
+        <label>User ID: </label>
+        <InputText @bind-Value="@_review.UserId" class="form-control" />
+        <ValidationMessage For="@(() => _review.UserId)" />
+    </div>
+    <div class="form-group">
+        <label>Comment: </label>
+        <InputNumber @bind-Value="@_review.Comment" class="form-control" />
+        <ValidationMessage For="@(() => _review.Comment)" />
+    </div>
+    <div class="form-group">
+        <label>Rating: </label>
+        <InputNumber @bind-Value="@_review.Rating" class="form-control" />
+        <ValidationMessage For="@(() => _review.Rating)" />
+    </div>
+  
+    <br />
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit">Update</button>
+        <button @onclick="BackToList" class="btn btn-secondary" type="button">Back To List</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private FluentValidationValidator? _fluentValidationValidator;
+    private UpdateReviewDto _review = null;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        var review = _reviewService.GetById(Id);
+        _review = new UpdateReviewDto
+            {
+                Id = review.Id,
+                MovieId = review.MovieId,
+                UserId = review.UserId,
+                Comment = review.Comment,
+                Rating = review.Rating
+            };
+    }
+
+    private void UpdateReview()
+    {
+        _reviewService.Update(_review);
+        _navigationManager.NavigateTo("/reviews");
+    }
+
+    private void BackToList()
+    {
+        _navigationManager.NavigateTo("/reviews");
+    }
+}
