@@ -3,17 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projekt.Application", "Projekt.Application\Projekt.Application.csproj", "{1DE2100D-8DA5-4421-9E18-CF4B0BE4AC90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Projekt.Application", "Projekt.Application\Projekt.Application.csproj", "{1DE2100D-8DA5-4421-9E18-CF4B0BE4AC90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projekt.Domain", "Projekt.Domain\Projekt.Domain.csproj", "{51240C10-0426-4DD1-93CA-B72B66AE768B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Projekt.Domain", "Projekt.Domain\Projekt.Domain.csproj", "{51240C10-0426-4DD1-93CA-B72B66AE768B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projekt.Infrastructure", "Projekt.Infrastructure\Projekt.Infrastructure.csproj", "{9671F5E4-8586-46C9-99E9-293AA188BD1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Projekt.Infrastructure", "Projekt.Infrastructure\Projekt.Infrastructure.csproj", "{9671F5E4-8586-46C9-99E9-293AA188BD1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projekt.SharedKernel", "Projekt.SharedKernel\Projekt.SharedKernel.csproj", "{C8BA5E2D-4603-417B-B6B5-519959638DBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Projekt.SharedKernel", "Projekt.SharedKernel\Projekt.SharedKernel.csproj", "{C8BA5E2D-4603-417B-B6B5-519959638DBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projekt.Web.API", "Projekt.Web.API\Projekt.Web.API.csproj", "{395759A5-D059-4909-8294-15FC50864E97}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projekt.BlazorServer", "Projekt.BlazorServer\Projekt.BlazorServer.csproj", "{46DCA8DA-9DE5-49F1-BEC7-C2E725B611A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Projekt.Web.API", "Projekt.Web.API\Projekt.Web.API.csproj", "{395759A5-D059-4909-8294-15FC50864E97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +39,6 @@ Global
 		{395759A5-D059-4909-8294-15FC50864E97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{395759A5-D059-4909-8294-15FC50864E97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{395759A5-D059-4909-8294-15FC50864E97}.Release|Any CPU.Build.0 = Release|Any CPU
-		{46DCA8DA-9DE5-49F1-BEC7-C2E725B611A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46DCA8DA-9DE5-49F1-BEC7-C2E725B611A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46DCA8DA-9DE5-49F1-BEC7-C2E725B611A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46DCA8DA-9DE5-49F1-BEC7-C2E725B611A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
