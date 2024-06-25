@@ -2,7 +2,7 @@
 Kamil Husak, Gabriela Maślanka, Karolina Gajewska
 
 ### Struktura projektu
-
+---
 #### Warstwa Aplikacji
 
 Zawiera interfejsy serwisów, serwisy dla wszystkich klas, mappery oraz validatory.
