@@ -1,12 +1,13 @@
-﻿@* @page "/movies/create"
+﻿@* @page "/movies/edit/{id:int}"
 @using Projekt.SharedKernel.Dto.Movie
 @inject IMovieService _movieService
 @inject NavigationManager _navigationManager
+@using FluentValidation.AspNetCore
 
-<PageTitle>Create Movie</PageTitle>
-<h1>Create Movie</h1>
+<PageTitle>Edit Movie</PageTitle>
+<h1>Edit Movie</h1>
 
-<EditForm Model="@_movie" OnValidSubmit="@CreateMovie">
+<EditForm Model="@_movie" OnValidSubmit="@UpdateMovie">
     <FluentValidationValidator @ref="_fluentValidationValidator" DisableAssemblyScanning="@true" />
     <ValidationSummary />
 
@@ -37,22 +38,41 @@
     </div>
     <br />
     <div class="form-group">
-        <button class="btn btn-primary" type="submit">Create</button>
-        <button @onclick="CancelCreate" class="btn btn-secondary" type="button">Cancel</button>
+        <button class="btn btn-primary" type="submit"> <span class="oi oi-pencil"></span> Update </button>
+        <button @onclick="BackToList" class="btn btn-secondary" type="button">
+            <span class="oi oi-media-skip-backward"></span> Back To List
+        </button>
     </div>
 </EditForm>
 
 @code {
-    private FluentValidationValidator? _fluentValidationValidator;
-    private CreateMovieDto _movie = new CreateMovieDto();
+    [Parameter]
+    public int Id { get; set; }
 
-    private void CreateMovie()
+    private FluentValidationValidator? _fluentValidationValidator;
+    private UpdateMovieDto _movie = null;
+
+    protected override void OnInitialized()
     {
-        _movieService.Create(_movie);
+        base.OnInitialized();
+        var movie = _movieService.GetById(Id);
+        _movie = new UpdateMovieDto
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                Genre = movie.Genre,
+                FilmLength = movie.FilmLength,
+                ReleaseDate = movie.ReleaseDate
+            };
+    }
+
+    private void UpdateMovie()
+    {
+        _movieService.Update(_movie);
         _navigationManager.NavigateTo("/movies");
     }
 
-    private void CancelCreate()
+    private void BackToList()
     {
         _navigationManager.NavigateTo("/movies");
     }

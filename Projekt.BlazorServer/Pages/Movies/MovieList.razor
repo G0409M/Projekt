@@ -30,7 +30,12 @@
                         <td>@m.FilmLength</td>
                         <td>@m.ReleaseDate.ToShortDateString()</td>
                         <td>
-                            <button class="btn bg-danger" @onclick="@(() => DeleteMovie(@m.Id))"><span class="oi oi-delete" aria-hidden="true"></span> Delete</button>
+                            <button class="btn bg-warning" @onclick="@(() => EditMovie(@m.Id))">
+                                <span class="oi oi-pencil" aria-hidden="true"></span> Edit
+                            </button>
+                            <button class="btn bg-danger" @onclick="@(() => DeleteMovie(@m.Id))">
+                                <span class="oi oi-delete" aria-hidden="true"></span> Delete
+                            </button>
                             <button class="btn btn-primary" @onclick="@(() => NavigateToDetails(@m.Id))">Details</button>
                         </td>
                     </tr>
@@ -69,4 +74,13 @@
     {
         _navigationManager.NavigateTo("/movies/create");
     }
+    
+
+    private void EditMovie(int id)
+    {
+        _navigationManager.NavigateTo($"/movies/edit/{id}");
+    }
+      
+    
+
 }
