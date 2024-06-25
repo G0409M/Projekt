@@ -18,21 +18,16 @@
  }
 </div>
 @code {
- private List<ReviewDto> _reviewList = new List<ReviewDto>()
- {
- new ReviewDto() { Comment = "Bardzo fajny film, polecam", Rating = 5/5},
- new ReviewDto() { Comment = "Nie polecam. Slabi aktorzy", Rating = 1/5},
- new ReviewDto() { Comment = "Super film na wieczor z rodzina", Rating = 4/5},
- new ReviewDto() {Comment = "Polecam, 10/10", Rating = 5/5},
- new ReviewDto() {Comment = "Sredni, ale, na letni wieczorek moze byc", Rating = 3/5},
- new ReviewDto() {Comment = "Bardzo mi sie podobal. Polecam, Magda Gessler", Rating = 5/5}
- };
- 
-} 
-@code {
- private IEnumerable<ReviewDto> _reviewList = new List<ReviewDto>();
- protected override async Task OnInitializedAsync()
- {
- _reviewList = await _reviewService.GetAll();
- }
+ private List<RevieweDto> _reviewList = null;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        LoadMovieRoles();
+    }
+
+    private void LoadMovieRoles()
+    {
+        _reviewList = _reviewService.GetAll();
+    }
 }
