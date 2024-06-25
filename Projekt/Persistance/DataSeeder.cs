@@ -9,6 +9,17 @@ namespace Projekt.Persistance
 {
     public class DataSeeder
     {
+
+        private readonly ProjektDbContext _context;
+        public DataSeeder(ProjektDbContext context)
+        {
+            _context = context;
+        }
+
+        public void Seed()
+        {
+            SeedData(_context);
+        }
         public static void SeedData(ProjektDbContext context)
         {
             SeedMovies(context);
