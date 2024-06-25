@@ -1,5 +1,7 @@
-﻿using Projekt.Contracts;
+﻿using AutoMapper;
+using Projekt.Contracts;
 using Projekt.Dto.User;
+using Projekt.Exceptions;
 using Projekt.Models;
 using System;
 using System.Collections.Generic;
@@ -12,63 +14,49 @@ namespace Projekt.Services
     public class UserService : IUserService
     {
         private readonly IProjektUnitOfWork _uow;
+        private readonly IMapper _mapper;
 
-        public UserService(IProjektUnitOfWork context)
+        public UserService(IProjektUnitOfWork unitOfWork, IMapper mapper)
         {
-            this._uow = context;
+            this._uow = unitOfWork;
+            this._mapper = mapper;
         }
 
         public List<UserDto> GetAll()
         {
             var users = _uow.UserRepository.GetAll();
-            return users.Select(u => new UserDto
-            {
-                Id = u.Id,
-                Username = u.Username,
-                Email = u.Email,
-                RegistrationDate = u.RegistrationDate
-            }).ToList();
+            List<UserDto> result = _mapper.Map<List<UserDto>>(users);
+            return result;
         }
 
         public UserDto GetById(int id)
         {
             if (id <= 0)
             {
-                throw new Exception("Id is less than zero");
+                throw new BadRequestException("Id is less than zero");
             }
 
             var user = _uow.UserRepository.Get(id);
             if (user == null)
             {
-                throw new Exception($"Could not find user with id = {id}");
+                throw new NotFoundException($"Could not find user with id = {id}");
             }
 
-            return new UserDto
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Email = user.Email,
-                RegistrationDate = user.RegistrationDate
-            };
+            var result = _mapper.Map<UserDto>(user);
+            return result;
         }
 
         public int Create(CreateUserDto dto)
         {
             if (dto == null)
             {
-                throw new Exception("No user data");
+                throw new BadRequestException("No user data");
             }
 
             var id = _uow.UserRepository.GetMaxId() + 1;
-
-            var user = new User
-            {
-                Id = id,
-                Username = dto.Username,
-                Email = dto.Email,
-                PasswordHash = dto.Password,
-                RegistrationDate = DateTime.Now
-            };
+            var user = _mapper.Map<User>(dto);
+            user.Id = id;
+            user.RegistrationDate = DateTime.Now;
 
             _uow.UserRepository.Insert(user);
             _uow.Commit();
@@ -80,13 +68,13 @@ namespace Projekt.Services
         {
             if (dto == null)
             {
-                throw new Exception("No user data");
+                throw new BadRequestException("No user data");
             }
 
             var user = _uow.UserRepository.Get(dto.Id);
             if (user == null)
             {
-                throw new Exception($"Could not find user with id = {dto.Id}");
+                throw new NotFoundException($"Could not find user with id = {dto.Id}");
             }
 
             user.Username = dto.Username;
@@ -101,7 +89,7 @@ namespace Projekt.Services
             var user = _uow.UserRepository.Get(id);
             if (user == null)
             {
-                throw new Exception($"Could not find user with id = {id}");
+                throw new NotFoundException($"Could not find user with id = {id}");
             }
 
             _uow.UserRepository.Delete(user);
@@ -109,3 +97,4 @@ namespace Projekt.Services
         }
     }
 }
+

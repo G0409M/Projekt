@@ -1,4 +1,5 @@
-﻿using Projekt.Contracts;
+﻿using AutoMapper;
+using Projekt.Contracts;
 using Projekt.Dto.Review;
 using Projekt.Exceptions;
 using Projekt.Models;
@@ -13,48 +14,36 @@ namespace Projekt.Services
     public class ReviewService : IReviewService
     {
         private readonly IProjektUnitOfWork _uow;
+        private readonly IMapper _mapper;
 
-        public ReviewService(IProjektUnitOfWork context)
+        public ReviewService(IProjektUnitOfWork unitOfWork, IMapper mapper)
         {
-            this._uow = context;
+            this._uow = unitOfWork;
+            this._mapper = mapper;
         }
 
         public List<ReviewDto> GetAll()
         {
             var reviews = _uow.ReviewRepository.GetAll();
-            return reviews.Select(r => new ReviewDto
-            {
-                Id = r.Id,
-                MovieId = r.MovieId,
-                UserId = r.UserId,
-                Comment = r.Comment,
-                Rating = r.Rating,
-                DateCreated = r.DateCreated
-            }).ToList();
+            List<ReviewDto> result = _mapper.Map<List<ReviewDto>>(reviews);
+            return result;
         }
 
         public ReviewDto GetById(int id)
         {
             if (id <= 0)
             {
-                throw new Exception("Id is less than zero");
+                throw new BadRequestException("Id is less than zero");
             }
 
             var review = _uow.ReviewRepository.Get(id);
             if (review == null)
             {
-                throw new Exception($"Could not find review with id = {id}");
+                throw new NotFoundException($"Could not find review with id = {id}");
             }
 
-            return new ReviewDto
-            {
-                Id = review.Id,
-                MovieId = review.MovieId,
-                UserId = review.UserId,
-                Comment = review.Comment,
-                Rating = review.Rating,
-                DateCreated = review.DateCreated
-            };
+            var result = _mapper.Map<ReviewDto>(review);
+            return result;
         }
 
         public int Create(CreateReviewDto dto)
@@ -65,16 +54,9 @@ namespace Projekt.Services
             }
 
             var id = _uow.ReviewRepository.GetMaxId() + 1;
-
-            var review = new Review
-            {
-                Id = id,
-                MovieId = dto.MovieId,
-                UserId = dto.UserId,
-                Comment = dto.Comment,
-                Rating = dto.Rating,
-                DateCreated = DateTime.Now
-            };
+            var review = _mapper.Map<Review>(dto);
+            review.Id = id;
+            review.DateCreated = DateTime.Now;
 
             _uow.ReviewRepository.Insert(review);
             _uow.Commit();
@@ -92,7 +74,7 @@ namespace Projekt.Services
             var review = _uow.ReviewRepository.Get(dto.Id);
             if (review == null)
             {
-                throw new Exception($"Could not find review with id = {dto.Id}");
+                throw new NotFoundException($"Could not find review with id = {dto.Id}");
             }
 
             review.MovieId = dto.MovieId;

@@ -1,5 +1,7 @@
-﻿using Projekt.Contracts;
+﻿using AutoMapper;
+using Projekt.Contracts;
 using Projekt.Dto.MovieRole;
+using Projekt.Exceptions;
 using Projekt.Models;
 using System;
 using System.Collections.Generic;
@@ -12,65 +14,48 @@ namespace Projekt.Services
     public class MovieRoleService : IMovieRoleService
     {
         private readonly IProjektUnitOfWork _uow;
+        private readonly IMapper _mapper;
 
-        public MovieRoleService(IProjektUnitOfWork context)
+        public MovieRoleService(IProjektUnitOfWork unitOfWork, IMapper mapper)
         {
-            this._uow = context;
+            this._uow = unitOfWork;
+            this._mapper = mapper;
         }
 
         public List<MovieRoleDto> GetAll()
         {
             var roles = _uow.MovieRoleRepository.GetAll();
-            return roles.Select(r => new MovieRoleDto
-            {
-                Id = r.Id,
-                RoleName = r.RoleName,
-                PersonName = r.PersonName,
-                MovieId = r.MovieId,
-                RoleType = r.RoleType
-            }).ToList();
+            List<MovieRoleDto> result = _mapper.Map<List<MovieRoleDto>>(roles);
+            return result;
         }
 
         public MovieRoleDto GetById(int id)
         {
             if (id <= 0)
             {
-                throw new Exception("Id is less than zero");
+                throw new BadRequestException("Id is less than zero");
             }
 
             var role = _uow.MovieRoleRepository.Get(id);
             if (role == null)
             {
-                throw new Exception($"Could not find movie role with id = {id}");
+                throw new NotFoundException($"Could not find movie role with id = {id}");
             }
 
-            return new MovieRoleDto
-            {
-                Id = role.Id,
-                RoleName = role.RoleName,
-                PersonName = role.PersonName,
-                MovieId = role.MovieId,
-                RoleType = role.RoleType
-            };
+            var result = _mapper.Map<MovieRoleDto>(role);
+            return result;
         }
 
         public int Create(CreateMovieRoleDto dto)
         {
             if (dto == null)
             {
-                throw new Exception("No movie role data");
+                throw new BadRequestException("No movie role data");
             }
 
             var id = _uow.MovieRoleRepository.GetMaxId() + 1;
-
-            var role = new MovieRole
-            {
-                Id = id,
-                RoleName = dto.RoleName,
-                PersonName = dto.PersonName,
-                MovieId = dto.MovieId,
-                RoleType = dto.RoleType
-            };
+            var role = _mapper.Map<MovieRole>(dto);
+            role.Id = id;
 
             _uow.MovieRoleRepository.Insert(role);
             _uow.Commit();
@@ -82,13 +67,13 @@ namespace Projekt.Services
         {
             if (dto == null)
             {
-                throw new Exception("No movie role data");
+                throw new BadRequestException("No movie role data");
             }
 
             var role = _uow.MovieRoleRepository.Get(dto.Id);
             if (role == null)
             {
-                throw new Exception($"Could not find movie role with id = {dto.Id}");
+                throw new NotFoundException($"Could not find movie role with id = {dto.Id}");
             }
 
             role.RoleName = dto.RoleName;
@@ -104,7 +89,7 @@ namespace Projekt.Services
             var role = _uow.MovieRoleRepository.Get(id);
             if (role == null)
             {
-                throw new Exception($"Could not find movie role with id = {id}");
+                throw new NotFoundException($"Could not find movie role with id = {id}");
             }
 
             _uow.MovieRoleRepository.Delete(role);
