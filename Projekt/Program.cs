@@ -8,6 +8,7 @@ using Projekt.Services;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 class Program
 {
