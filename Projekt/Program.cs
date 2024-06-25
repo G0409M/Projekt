@@ -9,6 +9,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Options;
 
 class Program
 {
@@ -23,7 +24,10 @@ class Program
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
-        
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Projekt API", Version = "v1" });
+        });
 
         // Rejestracja kontekstu bazy w kontenerze IoC
         var sqliteConnectionString = "Data Source=Projekt.WebAPI.db";
