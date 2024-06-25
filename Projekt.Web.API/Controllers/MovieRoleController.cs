@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Projekt.SharedKernel.Dto.Movie;
+using FluentValidation;
 
 namespace Projekt.Web.API.Controllers
 {
@@ -15,16 +17,22 @@ namespace Projekt.Web.API.Controllers
     public class MovieRoleController : ControllerBase
     {
         private readonly IMovieRoleService _movieRoleService;
+        private readonly IValidator<CreateMovieRoleDto> _validator;
+        private readonly ILogger<CreateMovieRoleDto> _logger;
 
-        public MovieRoleController(IMovieRoleService movieRoleService)
+        public MovieRoleController(IMovieRoleService movieRoleService, ILogger<CreateMovieRoleDto> logger, IValidator<CreateMovieRoleDto> validator)
         {
             _movieRoleService = movieRoleService;
+            _logger = logger;
+            _validator = validator;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<MovieRoleDto>> Get()
         {
+            _logger.LogDebug("Rozpoczęto pobieranie listy wszystkich ról filmowych");
             var result = _movieRoleService.GetAll();
+            _logger.LogDebug("Zakończono pobieranie listy wszystkich ról filmowych");
             return Ok(result);
         }
 

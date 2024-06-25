@@ -18,17 +18,21 @@ namespace Projekt.Web.API.Controllers
     {
         private readonly IMovieService _movieService;
         private readonly IValidator<CreateMovieDto> _validator;
+        private readonly ILogger<CreateMovieDto> _logger;
 
-        public MovieController(IMovieService movieService, IValidator<CreateMovieDto> validator)
+        public MovieController(IMovieService movieService, IValidator<CreateMovieDto> validator, ILogger<CreateMovieDto> logger)
         {
             _movieService = movieService;
             _validator = validator;
+            _logger = logger;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<MovieDto>> Get()
         {
+            _logger.LogDebug("Rozpoczęto pobieranie listy wszystkich filmów");
             var result = _movieService.GetAll();
+            _logger.LogDebug("Zakończono pobieranie listy wszystkich filmów");
             return Ok(result);
         }
 

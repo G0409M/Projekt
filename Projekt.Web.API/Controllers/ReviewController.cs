@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Projekt.SharedKernel.Dto.Movie;
 
 namespace Projekt.Web.API.Controllers
 {
@@ -18,17 +19,21 @@ namespace Projekt.Web.API.Controllers
     {
         private readonly IReviewService _reviewService;
         private readonly IValidator<CreateReviewDto> _validator;
+        private readonly ILogger<CreateReviewDto> _logger;
 
-        public ReviewController(IReviewService reviewService, IValidator<CreateReviewDto> validator)
+        public ReviewController(IReviewService reviewService, IValidator<CreateReviewDto> validator, ILogger<CreateReviewDto> logger)
         {
             _reviewService = reviewService;
             _validator = validator;
+            _logger = logger;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<ReviewDto>> Get()
         {
+            _logger.LogDebug("Rozpoczęto pobieranie listy wszystkich recenzji");
             var result = _reviewService.GetAll();
+            _logger.LogDebug("Zakończono pobieranie listy wszystkich recenzji");
             return Ok(result);
         }
 

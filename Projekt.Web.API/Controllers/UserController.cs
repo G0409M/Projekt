@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentValidation;
+using Projekt.SharedKernel.Dto.Review;
 
 namespace Projekt.Web.API.Controllers
 {
@@ -16,16 +18,22 @@ namespace Projekt.Web.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly ILogger<CreateUserDto> _logger;
+        private readonly IValidator<CreateUserDto> _validator;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, ILogger<CreateUserDto> logger, IValidator<CreateUserDto> validator)
         {
             _userService = userService;
+            _logger = logger;
+            _validator = validator;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<UserDto>> Get()
         {
+            _logger.LogDebug("Rozpoczęto pobieranie listy wszystkich użytkownikó");
             var result = _userService.GetAll();
+            _logger.LogDebug("Zakończono pobieranie listy wszystkich użytkowników");
             return Ok(result);
         }
 
