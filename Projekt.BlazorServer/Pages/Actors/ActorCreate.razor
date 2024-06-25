@@ -1,0 +1,62 @@
+﻿@page "/actors/create"
+@using Projekt.SharedKernel.Dto.MovieRole
+@inject IMovieRoleService _movieRoleService
+@inject NavigationManager _navigationManager
+@using Projekt.Domain.Models
+
+@using Blazored.FluentValidation
+
+<PageTitle>Create Actor</PageTitle>
+<h1>Create Actor</h1>
+
+<EditForm Model="@_actor" OnValidSubmit="@CreateActor">
+    <FluentValidationValidator @ref="_fluentValidationValidator" DisableAssemblyScanning="@true" />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Role Name: </label>
+        <InputText @bind-Value="@_actor.RoleName" class="form-control" />
+        <ValidationMessage For="@(() => _actor.RoleName)" />
+    </div>
+    <div class="form-group">
+        <label>Person Name: </label>
+        <InputText @bind-Value="@_actor.PersonName" class="form-control" />
+        <ValidationMessage For="@(() => _actor.PersonName)" />
+    </div>
+    <div class="form-group">
+        <label>Movie ID: </label>
+        <InputNumber @bind-Value="@_actor.MovieId" class="form-control" />
+        <ValidationMessage For="@(() => _actor.MovieId)" />
+    </div>
+    <div class="form-group">
+        <label>Role Type: </label>
+        <InputSelect @bind-Value="_actor.RoleType" class="form-control">
+            @foreach (var roleType in Enum.GetValues(typeof(RoleType)))
+            {
+                <option value="@roleType">@roleType</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => _actor.RoleType)" />
+    </div>
+    <br />
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit">Create</button>
+        <button @onclick="CancelCreate" class="btn btn-secondary" type="button">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    private FluentValidationValidator? _fluentValidationValidator;
+    private CreateMovieRoleDto _actor = new CreateMovieRoleDto();
+
+    private void CreateActor()
+    {
+        _movieRoleService.Create(_actor);
+        _navigationManager.NavigateTo("/actors");
+    }
+
+    private void CancelCreate()
+    {
+        _navigationManager.NavigateTo("/actors");
+    }
+}

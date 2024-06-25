@@ -1,6 +1,5 @@
 ﻿@page "/movies/create"
 @using Projekt.SharedKernel.Dto.Movie
-@using FluentValidation.Blazor
 @inject IMovieService _movieService
 @inject NavigationManager _navigationManager
 @using Projekt.Domain.Models
@@ -31,11 +30,7 @@
     </div>
     <div class="form-group">
         <label>Length (minutes): </label>
-<<<<<<< HEAD
-        <InputNumber @bind-Value="_movie.FilmLength.TotalMinutes" class="form-control" />
-=======
         <InputNumber @bind-Value="@_movie.FilmLength" class="form-control" />
->>>>>>> 5da72651587f7a11bc265faca4c96fde72e736c4
         <ValidationMessage For="@(() => _movie.FilmLength)" />
     </div>
     <div class="form-group">
@@ -54,9 +49,9 @@
     private FluentValidationValidator? _fluentValidationValidator;
     private CreateMovieDto _movie = new CreateMovieDto();
 
-    private async Task CreateMovie()
+    private void CreateMovie()
     {
-        await _movieService.Create(_movie);
+        _movieService.Create(_movie);
         _navigationManager.NavigateTo("/movies");
     }
 
@@ -65,7 +60,4 @@
         _navigationManager.NavigateTo("/movies");
     }
 }
-<<<<<<< HEAD
-=======
  
->>>>>>> 5da72651587f7a11bc265faca4c96fde72e736c4
