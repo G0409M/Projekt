@@ -2,7 +2,7 @@
 @using Projekt.SharedKernel.Dto.Movie
 @inject IMovieService _movieService
 @inject NavigationManager _navigationManager
-@using FluentValidation.AspNetCore
+@using Blazored.FluentValidation
 
 <PageTitle>Edit Movie</PageTitle>
 <h1>Edit Movie</h1>
@@ -28,7 +28,7 @@
     </div>
     <div class="form-group">
         <label>Length (minutes): </label>
-        <InputNumber @bind-Value="@_movie.FilmLength.TotalMinutes" class="form-control" />
+        <InputNumber @bind-Value="_movie.FilmLength.TotalMinutes" class="form-control" />
         <ValidationMessage For="@(() => _movie.FilmLength)" />
     </div>
     <div class="form-group">
@@ -61,7 +61,7 @@
                 Id = movie.Id,
                 Title = movie.Title,
                 Genre = movie.Genre,
-                FilmLength = movie.FilmLength,
+                FilmLength = TimeSpan.FromMinutes(movie.FilmLength), // Assuming movie.FilmLength is in minutes
                 ReleaseDate = movie.ReleaseDate
             };
     }
