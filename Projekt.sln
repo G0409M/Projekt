@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Projekt.Web.API", "Projekt.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementy rozwiązania", "Elementy rozwiązania", "{D3125D49-EF47-4850-9219-12DDCD72E699}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projekt.BlazorServer", "Projekt.BlazorServer\Projekt.BlazorServer.csproj", "{696908DF-DA54-4886-804D-257FA34E3845}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Projekt.BlazorServer", "Projekt.BlazorServer\Projekt.BlazorServer.csproj", "{696908DF-DA54-4886-804D-257FA34E3845}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

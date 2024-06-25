@@ -1,0 +1,50 @@
+﻿@page "/actors/details/{id:int}"
+@using Projekt.SharedKernel.Dto.MovieRole
+@inject IMovieRoleService _movieRoleService
+@inject NavigationManager _navigationManager
+
+<PageTitle>Actor Details</PageTitle>
+<h1>Actor Details</h1>
+
+@if (_actor != null)
+{
+    <dl class="row">
+        <dt class="col-sm-3">Role Name:</dt>
+        <dd class="col-sm-9">@_actor.RoleName</dd>
+
+        <dt class="col-sm-3">Person Name:</dt>
+        <dd class="col-sm-9">@_actor.PersonName</dd>
+
+        <dt class="col-sm-3">Movie ID:</dt>
+        <dd class="col-sm-9">@_actor.MovieId</dd>
+
+        <dt class="col-sm-3">Role Type:</dt>
+        <dd class="col-sm-9">@_actor.RoleType</dd>
+    </dl>
+}
+else
+{
+    <p>Actor not found.</p>
+}
+
+<div class="form-group">
+    <button class="btn btn-secondary" @onclick="BackToList">Back To List</button>
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private MovieRoleDto _actor;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _actor = _movieRoleService.GetById(Id);
+    }
+
+    private void BackToList()
+    {
+        _navigationManager.NavigateTo("/actors");
+    }
+}

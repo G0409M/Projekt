@@ -29,7 +29,7 @@
     </div>
     <div class="form-group">
         <label>Length (minutes): </label>
-        <InputNumber @bind-Value="_movie.FilmLength" class="form-control" />
+        <InputNumber @bind-Value="@_movie.FilmLength" class="form-control" />
         <ValidationMessage For="@(() => _movie.FilmLength)" />
     </div>
     <div class="form-group">
