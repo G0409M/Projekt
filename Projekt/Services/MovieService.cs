@@ -1,4 +1,5 @@
-﻿using Projekt.Contracts;
+﻿using AutoMapper;
+using Projekt.Contracts;
 using Projekt.Dto.Movie;
 using Projekt.Models;
 using System;
@@ -12,65 +13,24 @@ namespace Projekt.Services
     public class MovieService : IMovieService
     {
         private readonly IProjektUnitOfWork _uow;
+        private readonly IMapper _mapper;
 
-        public MovieService(IProjektUnitOfWork context)
+        public MovieService(IProjektUnitOfWork unitOfWork, IMapper mapper)
         {
-            this._uow = context;
-        }
-
-        public List<MovieDto> GetAll()
-        {
-            var movies = _uow.MovieRepository.GetAll();
-            return movies.Select(m => new MovieDto
-            {
-                Id = m.Id_movie,
-                FilmLength = m.FilmLength,
-                Title = m.Title,
-                Genre = m.Genre,
-                ReleaseDate = m.ReleaseDate
-            }).ToList();
-        }
-
-        public MovieDto GetById(int id)
-        {
-            if (id <= 0)
-            {
-                throw new Exception("Id is less than zero");
-            }
-
-            var movie = _uow.MovieRepository.Get(id);
-            if (movie == null)
-            {
-                throw new Exception($"Could not find movie with id = {id}");
-            }
-
-            return new MovieDto
-            {
-                Id = movie.Id_movie,
-                FilmLength = movie.FilmLength,
-                Title = movie.Title,
-                Genre = movie.Genre,
-                ReleaseDate = movie.ReleaseDate
-            };
+            this._uow = unitOfWork;
+            this._mapper = mapper;
         }
 
         public int Create(CreateMovieDto dto)
         {
             if (dto == null)
             {
-                throw new Exception("No movie data");
+                throw new BadRequestException("No movie data");
             }
 
             var id = _uow.MovieRepository.GetMaxId() + 1;
-
-            var movie = new Movie
-            {
-                Id_movie = id,
-                FilmLength = dto.FilmLength,
-                Title = dto.Title,
-                Genre = dto.Genre,
-                ReleaseDate = dto.ReleaseDate
-            };
+            var movie = _mapper.Map<Movie>(dto);
+            movie.Id_movie = id;
 
             _uow.MovieRepository.Insert(movie);
             _uow.Commit();
@@ -78,17 +38,53 @@ namespace Projekt.Services
             return id;
         }
 
+        public void Delete(int id)
+        {
+            var movie = _uow.MovieRepository.Get(id);
+            if (movie == null)
+            {
+                throw new NotFoundException($"Could not find movie with id = {id}");
+            }
+
+            _uow.MovieRepository.Delete(movie);
+            _uow.Commit();
+        }
+
+        public List<MovieDto> GetAll()
+        {
+            var movies = _uow.MovieRepository.GetAll();
+            var result = _mapper.Map<List<MovieDto>>(movies);
+            return result;
+        }
+
+        public MovieDto GetById(int id)
+        {
+            if (id <= 0)
+            {
+                throw new BadRequestException("Id is less than zero");
+            }
+
+            var movie = _uow.MovieRepository.Get(id);
+            if (movie == null)
+            {
+                throw new NotFoundException($"Could not find movie with id = {id}");
+            }
+
+            var result = _mapper.Map<MovieDto>(movie);
+            return result;
+        }
+
         public void Update(UpdateMovieDto dto)
         {
             if (dto == null)
             {
-                throw new Exception("No movie data");
+                throw new BadRequestException("No movie data");
             }
 
             var movie = _uow.MovieRepository.Get(dto.Id);
             if (movie == null)
             {
-                throw new Exception($"Could not find movie with id = {dto.Id}");
+                throw new NotFoundException($"Could not find movie with id = {dto.Id}");
             }
 
             movie.FilmLength = dto.FilmLength;
@@ -96,18 +92,6 @@ namespace Projekt.Services
             movie.Genre = dto.Genre;
             movie.ReleaseDate = dto.ReleaseDate;
 
-            _uow.Commit();
-        }
-
-        public void Delete(int id)
-        {
-            var movie = _uow.MovieRepository.Get(id);
-            if (movie == null)
-            {
-                throw new Exception($"Could not find movie with id = {id}");
-            }
-
-            _uow.MovieRepository.Delete(movie);
             _uow.Commit();
         }
     }
