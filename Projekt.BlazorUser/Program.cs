@@ -15,7 +15,14 @@ builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped(sp => new HttpClient
 {
     BaseAddress =
- new Uri(builder.Configuration.GetValue<string>("SaleKioskAPIUrl"))
+ new Uri(builder.Configuration.GetValue<string>("ApplicationAPIUrl"))
 });
+
+// rejestruje w kontenerze zale¿noœci politykê CORS o nazwie SaleKiosk,
+// która zapewnia dostêp do API z dowolnego miejsca oraz przy pomocy dowolnej metody
+builder.Services.AddCors(o => o.AddPolicy("FilmWeb", builder =>
+{
+    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+}));
 
 await builder.Build().RunAsync();

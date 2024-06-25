@@ -10,11 +10,9 @@
  @foreach (var p in _reviewList)
  {
  <div class="card m-2" style="width: 18rem;">
- <img class="card-img-top" src="..." alt="Card image cap">
  <div class="card-body">
  <h5 class="card-title">@p.Comment</h5>
  <p class="card-text">@p.Rating</p>
- <a href="#" class="btn btn-primary">Add to cart</a>
  </div>
  </div>
  }
@@ -31,10 +29,10 @@
  };
  
 } 
-@*@code {
+@code {
  private IEnumerable<ReviewDto> _reviewList = new List<ReviewDto>();
  protected override async Task OnInitializedAsync()
  {
  _reviewList = await _reviewService.GetAll();
  }
-}*@
+}
