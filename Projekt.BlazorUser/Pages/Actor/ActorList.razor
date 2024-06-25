@@ -1,0 +1,68 @@
+﻿@*@page "/actors"
+@using Projekt.SharedKernel.Dto.MovieRole
+@inject IMovieRoleService _movieRoleService
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _js
+
+<PageTitle>Actor List</PageTitle>
+<h1>Actor List</h1>
+<br />
+<div>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Role Name</th>
+                    <th>Person Name</th>
+                    <th>Movie ID</th>
+                    <th>Role Type</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var role in _movieRoleList)
+                {
+                    <tr>
+                        <td>@role.RoleName</td>
+                        <td>@role.PersonName</td>
+                        <td>@role.MovieId</td>
+                        <td>@role.RoleType</td>
+                        <td>
+                            <button class="btn btn-add" @onclick="@(() => CreateReview())"><span class="oi oi-trash" aria-hidden="true"></span> Add review </button>
+                            <button class="btn btn-info" @onclick="@(() => ShowDetails(role.Id))"><span class="oi oi-eye" aria-hidden="true"></span> Details </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="text-right">
+        <button class="btn btn-primary" @onclick="@(() => NavigateToCreate())"><span class="oi oi-plus" aria-hidden="true"></span> Create New Movie Role </button>
+    </div>
+</div>
+
+@code {
+    private List<MovieRoleDto> _movieRoleList = null;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        LoadMovieRoles();
+    }
+
+    private void LoadMovieRoles()
+    {
+        _movieRoleList = _movieRoleService.GetAll();
+    }
+
+    private void CreateReview()
+    {
+        _navigationManager.NavigateTo($"/reviews/create");
+    }
+
+    private void ShowDetails(int id)
+    {
+        _navigationManager.NavigateTo($"/actors/details/{id}");
+    }
+}
+*@

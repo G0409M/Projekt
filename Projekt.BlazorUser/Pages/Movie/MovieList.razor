@@ -1,0 +1,61 @@
+﻿@page "/movies"
+@using Projekt.SharedKernel.Dto.Movie
+@inject IMovieService _movieService
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _js
+
+<PageTitle>Movie List</PageTitle>
+<h1>Movie List</h1>
+<br />
+<div>
+    <div>
+        <br /><br />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Genre</th>
+                    <th>Length</th>
+                    <th>Release Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in _movieList)
+                {
+                    <tr>
+                        <td>@m.Title</td>
+                        <td>@m.Genre</td>
+                        <td>@m.FilmLength</td>
+                        <td>@m.ReleaseDate.ToShortDateString()</td>
+                        <td>
+                            <button class="btn btn-add" @onclick="@(() => CreateReview())"><span class="oi oi-trash" aria-hidden="true"></span> Add review </button>
+                            <button class="btn btn-info" @onclick="@(() => ShowDetails(@m.Id))"><span class="oi oi-eye" aria-hidden="true"></span> Details </button>
+                        </td>
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="text-right">
+        <button class="btn btn-primary" @onclick="NavigateToCreate"><span class="oi oi-plus" aria-hidden="true"></span> Create New Movie </button>
+    </div>
+</div>
+
+@code {
+    private List<MovieDto> _movieList = null;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _movieList = _movieService.GetAll();
+    }
+
+
+    private void NavigateToDetails(int id)
+    {
+        _navigationManager.NavigateTo($"/movies/{id}");
+    }
+
+}
