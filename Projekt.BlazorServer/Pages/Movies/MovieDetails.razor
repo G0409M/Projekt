@@ -1,0 +1,66 @@
+﻿@page "/movies/{id:int}"
+@using Projekt.SharedKernel.Dto.Movie
+@using Projekt.SharedKernel.Dto.Review
+@inject IMovieService _movieService
+@inject IReviewService _reviewService
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _js
+
+<PageTitle>Movie Details</PageTitle>
+<h1>Movie Details</h1>
+
+@if (movie == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div>
+        <h2>@movie.Title</h2>
+        <p><strong>Genre:</strong> @movie.Genre</p>
+        <p><strong>Length:</strong> @movie.FilmLength</p>
+        <p><strong>Release Date:</strong> @movie.ReleaseDate.ToShortDateString()</p>
+
+        <h3>Reviews</h3>
+        @if (reviews == null || !reviews.Any())
+        {
+            <p>No reviews yet.</p>
+        }
+        else
+        {
+            <ul>
+                @foreach (var review in reviews)
+                {
+                    <li>
+                        <strong>@review.UserId:</strong> @review.Comment <br />
+                        <strong>Rating:</strong> @review.Rating/5
+                    </li>
+                }
+            </ul>
+        }
+
+        <AddReviewComponent MovieId="@movie.Id" OnReviewAdded="@LoadReviews" />
+    </div>
+}
+
+@code {
+    [Parameter] public int id { get; set; }
+    private MovieDto movie;
+    private List<ReviewDto> reviews;
+
+    protected override void OnInitialized()
+    {
+        LoadMovieDetails();
+        LoadReviews();
+    }
+
+    private void LoadMovieDetails()
+    {
+        movie = _movieService.GetById(id);
+    }
+
+    private void LoadReviews()
+    {
+        reviews = _reviewService.GetByMovieId(id);
+    }
+}

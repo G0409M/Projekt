@@ -14,5 +14,7 @@ namespace Projekt.Application.Services
         int Create(CreateReviewDto dto);
         void Update(UpdateReviewDto dto);
         void Delete(int id);
+
+        List<ReviewDto> GetByMovieId(int movieId);
     }
 }

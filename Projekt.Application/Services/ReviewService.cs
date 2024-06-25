@@ -96,5 +96,12 @@ namespace Projekt.Application.Services
             _uow.ReviewRepository.Delete(review);
             _uow.Commit();
         }
+        public List<ReviewDto> GetByMovieId(int movieId)
+        {
+            var reviews = _uow.ReviewRepository.GetAll().Where(r => r.MovieId == movieId).ToList();
+            List<ReviewDto> result = _mapper.Map<List<ReviewDto>>(reviews);
+            return result;
+        }
+
     }
 }

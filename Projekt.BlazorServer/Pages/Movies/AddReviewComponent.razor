@@ -1,0 +1,46 @@
+﻿@using Projekt.SharedKernel.Dto.Review
+@inject IReviewService _reviewService
+@inject IJSRuntime _js
+
+<div>
+    <h4>Add a Review</h4>
+    <EditForm Model="newReview" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="comment">Comment</label>
+            <InputTextArea id="comment" class="form-control" @bind-Value="newReview.Comment" />
+        </div>
+
+        <div class="form-group">
+            <label for="rating">Rating</label>
+            <InputNumber id="rating" class="form-control" @bind-Value="newReview.Rating" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </EditForm>
+</div>
+
+@code {
+    [Parameter] public int MovieId { get; set; }
+    [Parameter] public EventCallback OnReviewAdded { get; set; }
+
+    private CreateReviewDto newReview = new CreateReviewDto();
+
+    private async Task HandleValidSubmit()
+    {
+        newReview.MovieId = MovieId;
+        newReview.UserId = 1; // Replace with actual user ID
+
+        // Correct the issue by not awaiting the returned ID
+        int newReviewId = _reviewService.Create(newReview);
+
+        // Notify that a review has been added
+        await OnReviewAdded.InvokeAsync();
+
+        // Clear the form fields
+        newReview.Comment = string.Empty;
+        newReview.Rating = 0;
+    }
+}
