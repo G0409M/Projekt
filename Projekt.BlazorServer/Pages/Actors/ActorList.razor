@@ -1,0 +1,59 @@
+﻿@page "/actors"
+@using Projekt.SharedKernel.Dto.MovieRole
+@inject IMovieRoleService _movieRoleService
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _js
+
+<PageTitle>Actor List</PageTitle>
+<h1>Actor List</h1>
+<br />
+<div>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Role Name</th>
+                    <th>Person Name</th>
+                    <th>Movie ID</th>
+                    <th>Role Type</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var role in _movieRoleList)
+                {
+                    <tr>
+                        <td>@role.RoleName</td>
+                        <td>@role.PersonName</td>
+                        <td>@role.MovieId</td>
+                        <td>@role.RoleType</td>
+                        <td>
+                            <button class="btn bg-danger" @onclick="@(()=>DeleteMovieRole(@role.Id))"><span class="oi oi-delete" aria-hidden="true"></span> Delete </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    private List<MovieRoleDto> _movieRoleList = null;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _movieRoleList = _movieRoleService.GetAll();
+    }
+
+    protected async Task DeleteMovieRole(int id)
+    {
+        var role = _movieRoleList.First(q => q.Id == id);
+        var confirm = await _js.InvokeAsync<bool>("confirm", $"Are You Sure You Want To Delete the role '{role.RoleName}' played by '{role.PersonName}'?");
+        if (confirm)
+        {
+            _movieRoleService.Delete(id);
+            OnInitialized();
+        }
+    }
+}

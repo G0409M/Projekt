@@ -1,0 +1,59 @@
+﻿@page "/movies"
+@using Projekt.SharedKernel.Dto.Movie
+@inject IMovieService _movieService
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _js
+
+<PageTitle>Movie List</PageTitle>
+<h1>Movie List</h1>
+<br />
+<div>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Genre</th>
+                    <th>Length</th>
+                    <th>Release Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in _movieList)
+                {
+                    <tr>
+                        <td>@m.Title</td>
+                        <td>@m.Genre</td>
+                        <td>@m.FilmLength</td>
+                        <td>@m.ReleaseDate.ToShortDateString()</td>
+                        <td>
+                            <button class="btn bg-danger" @onclick="@(()=>DeleteMovie(@m.Id))"><span class="oi oi-delete" aria-hidden="true"></span> Delete </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    private List<MovieDto> _movieList = null;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _movieList = _movieService.GetAll();
+    }
+
+    protected async Task DeleteMovie(int id)
+    {
+        var movie = _movieList.First(q => q.Id == id);
+        var confirm = await _js.InvokeAsync<bool>("confirm", $"Are You Sure You Want To Delete {movie.Title}?");
+        if (confirm)
+        {
+            _movieService.Delete(id);
+            OnInitialized();
+        }
+    }
+}
