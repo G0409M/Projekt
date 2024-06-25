@@ -9,6 +9,8 @@
 <br />
 <div>
     <div>
+        <button class="btn btn-primary" @onclick="NavigateToCreate">Create Movie</button>
+        <br /><br />
         <table class="table">
             <thead>
                 <tr>
@@ -61,5 +63,10 @@
     private void NavigateToDetails(int id)
     {
         _navigationManager.NavigateTo($"/movies/{id}");
+    }
+
+    private void NavigateToCreate()
+    {
+        _navigationManager.NavigateTo("/movies/create");
     }
 }

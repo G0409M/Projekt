@@ -23,6 +23,9 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddAutoMapper(typeof(ProjektMapper));
 // FluentValidation waliduje i przekazuje wynik przez ModelState
 builder.Services.AddFluentValidationAutoValidation();
+
+builder.Services.AddFluentValidationClientsideAdapters();
+
 // Rejestracja kontekstu bazy w kontenerze IoC
 var sqliteConnectionString = "Data Source=Projekt.WebAPI.db";
 builder.Services.AddDbContext<ProjektDbContext>(options =>
