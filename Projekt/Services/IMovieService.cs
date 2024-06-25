@@ -14,5 +14,6 @@ namespace Projekt.Services
         int Create(CreateMovieDto dto);
         void Update(UpdateMovieDto dto);
         void Delete(int id);
+        bool IsInUse(string title);
     }
 }

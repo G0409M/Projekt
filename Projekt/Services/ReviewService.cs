@@ -1,5 +1,6 @@
 ﻿using Projekt.Contracts;
 using Projekt.Dto.Review;
+using Projekt.Exceptions;
 using Projekt.Models;
 using System;
 using System.Collections.Generic;
@@ -60,7 +61,7 @@ namespace Projekt.Services
         {
             if (dto == null)
             {
-                throw new Exception("No review data");
+                throw new BadRequestException("No review data");
             }
 
             var id = _uow.ReviewRepository.GetMaxId() + 1;
@@ -85,7 +86,7 @@ namespace Projekt.Services
         {
             if (dto == null)
             {
-                throw new Exception("No review data");
+                throw new BadRequestException("No review data");
             }
 
             var review = _uow.ReviewRepository.Get(dto.Id);
@@ -107,7 +108,7 @@ namespace Projekt.Services
             var review = _uow.ReviewRepository.Get(id);
             if (review == null)
             {
-                throw new Exception($"Could not find review with id = {id}");
+                throw new NotFoundException($"Could not find review with id = {id}");
             }
 
             _uow.ReviewRepository.Delete(review);
