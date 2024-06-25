@@ -1,0 +1,40 @@
+﻿@page "/reviews"
+@using Projekt.SharedKernel.Dto.Review
+@inject IReviewService _reviewService
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _js
+
+<PageTitle>Review list</PageTitle>
+<h1>Review list</h1>
+<div class="row">
+ @foreach (var p in _reviewList)
+ {
+ <div class="card m-2" style="width: 18rem;">
+ <img class="card-img-top" src="..." alt="Card image cap">
+ <div class="card-body">
+ <h5 class="card-title">@p.Comment</h5>
+ <p class="card-text">@p.Rating</p>
+ <a href="#" class="btn btn-primary">Add to cart</a>
+ </div>
+ </div>
+ }
+</div>
+@code {
+ private List<ReviewDto> _reviewList = new List<ReviewDto>()
+ {
+ new ReviewDto() { Comment = "Bardzo fajny film, polecam", Rating = 5/5},
+ new ReviewDto() { Comment = "Nie polecam. Slabi aktorzy", Rating = 1/5},
+ new ReviewDto() { Comment = "Super film na wieczor z rodzina", Rating = 4/5},
+ new ReviewDto() {Comment = "Polecam, 10/10", Rating = 5/5},
+ new ReviewDto() {Comment = "Sredni, ale, na letni wieczorek moze byc", Rating = 3/5},
+ new ReviewDto() {Comment = "Bardzo mi sie podobal. Polecam, Magda Gessler", Rating = 5/5}
+ };
+ 
+} 
+@*@code {
+ private IEnumerable<ReviewDto> _reviewList = new List<ReviewDto>();
+ protected override async Task OnInitializedAsync()
+ {
+ _reviewList = await _reviewService.GetAll();
+ }
+}*@
