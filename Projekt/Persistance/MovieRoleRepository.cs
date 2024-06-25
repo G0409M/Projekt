@@ -17,5 +17,9 @@ namespace Projekt.Persistance
         {
             _projektDbContext = context;
         }
+        public int GetMaxId()
+        {
+            return _projektDbContext.MovieRoles.Max(x => x.Id);
+        }
     }
 }

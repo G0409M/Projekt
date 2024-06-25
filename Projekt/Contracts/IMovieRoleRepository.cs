@@ -9,5 +9,6 @@ namespace Projekt.Contracts
 {
     public interface IMovieRoleRepository : IRepository<MovieRole>
     {
+        int GetMaxId();
     }
 }

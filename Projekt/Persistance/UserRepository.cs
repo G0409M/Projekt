@@ -17,5 +17,9 @@ namespace Projekt.Persistance
         {
             _projektDbContext = context;
         }
+        public int GetMaxId()
+        {
+            return _projektDbContext.Users.Max(x => x.Id);
+        }
     }
 }

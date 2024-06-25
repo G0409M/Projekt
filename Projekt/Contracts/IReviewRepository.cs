@@ -12,5 +12,6 @@ namespace Projekt.Contracts
     {
         PagedList<Review> GetReviews(QueryStringParameters queryStringParameters);
         PagedList<Review> GetReviews(ReviewParameters parameters);
+        int GetMaxId();
     }
 }

@@ -9,5 +9,6 @@ namespace Projekt.Contracts
 {
     public interface IUserRepository : IRepository<User>
     {
+        int GetMaxId();
     }
 }

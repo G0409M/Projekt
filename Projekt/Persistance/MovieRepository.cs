@@ -29,5 +29,10 @@ namespace Projekt.Persistance
         {
             throw new NotImplementedException();
         }
+        public int GetMaxId()
+        {
+            return _projektDbContext.Movies.Max(x => x.Id_movie);
+        }
+       
     }
 }

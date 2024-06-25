@@ -64,5 +64,10 @@ namespace Projekt.Persistance
             // paging
             return query.AsPagedList(pp.PageNumber, pp.PageSize);
         }
+
+        public int GetMaxId()
+        {
+            return _projektDbContext.Reviews.Max(x => x.Id);
+        }
     }
 }

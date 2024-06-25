@@ -22,7 +22,7 @@ namespace Projekt.Persistance
             return _context.Set<TEntity>().Count();
         }
 
-        public TEntity Get(Guid id)
+        public TEntity Get(int id)
         {
             return _context.Set<TEntity>().Find(id);
         }
@@ -51,5 +51,6 @@ namespace Projekt.Persistance
         {
             _context.Set<TEntity>().Remove(entity);
         }
+        
     }
 }

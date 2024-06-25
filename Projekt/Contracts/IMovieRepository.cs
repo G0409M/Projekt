@@ -12,5 +12,6 @@ namespace Projekt.Contracts
     {
         PagedList<Movie> GetMovies(QueryStringParameters queryStringParameters);
         PagedList<Movie> GetMovies(MovieParameters parameters);
+        int GetMaxId();
     }
 }
