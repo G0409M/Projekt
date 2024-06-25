@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Projekt.Contracts;
 using Projekt.Dto.Movie;
+using Projekt.Exceptions;
 using Projekt.Models;
 using System;
 using System.Collections.Generic;
