@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Components.Web;
 using Projekt.Application.Mappings;
 using Projekt.Application.Services;
 using Projekt.Application.Validators;
-using Projekt.BlazorServer.Data;
 using Projekt.Domain.Contracts;
 using Projekt.SharedKernel.Dto.Movie;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +19,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 // Rejestracja AutoMapper
 builder.Services.AddAutoMapper(typeof(ProjektMapper));
 // FluentValidation waliduje i przekazuje wynik przez ModelState
