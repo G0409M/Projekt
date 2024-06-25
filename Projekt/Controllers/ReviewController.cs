@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Projekt.Dto.Review;
 using Projekt.Services;
@@ -16,10 +17,12 @@ namespace Projekt.Controllers
     public class ReviewController : ControllerBase
     {
         private readonly IReviewService _reviewService;
+        private readonly IValidator<CreateReviewDto> _validator;
 
-        public ReviewController(IReviewService reviewService)
+        public ReviewController(IReviewService reviewService, IValidator<CreateReviewDto> validator)
         {
             _reviewService = reviewService;
+            _validator = validator;
         }
 
         [HttpGet]

@@ -10,6 +10,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Options;
+using Projekt.Middleware;
+using FluentValidation;
+using Projekt.Dto.Movie;
+using Projekt.Dto.Validators;
+using FluentValidation.AspNetCore;
 
 class Program
 {
@@ -46,10 +51,18 @@ class Program
         builder.Services.AddScoped<IReviewService, ReviewService>();
         builder.Services.AddScoped<IUserService, UserService>();
 
+        builder.Services.AddScoped<ExceptionMiddleware>();
+        
         builder.Services.AddScoped<DataSeeder>();
+
+        builder.Services.AddScoped<IValidator<CreateMovieDto>, RegisterCreateMovieDtoValidator>();
 
         // Rejestracja AutoMapper
         builder.Services.AddAutoMapper(typeof(ProjektMapper));
+
+        // Rejestracja automatycznej walidacji
+        // FluentValidation waliduje i przekazuje wynik przez ModelState
+        builder.Services.AddFluentValidationAutoValidation();
 
         var app = builder.Build();
 
@@ -66,6 +79,7 @@ class Program
 
         app.MapControllers();
 
+        app.UseMiddleware<ExceptionMiddleware>();
 
         //...
         // uruchomienie seedera

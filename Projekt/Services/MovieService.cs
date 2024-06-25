@@ -110,5 +110,10 @@ namespace Projekt.Services
             _uow.MovieRepository.Delete(movie);
             _uow.Commit();
         }
+
+        public bool IsInUse(string title)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

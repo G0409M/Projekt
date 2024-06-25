@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Projekt.Dto.Movie;
 using Projekt.Dto.MovieRole;
@@ -16,10 +17,12 @@ namespace Projekt.Controllers
     public class MovieController : ControllerBase
     {
         private readonly IMovieService _movieService;
+        private readonly IValidator<CreateMovieDto> _validator;
 
-        public MovieController(IMovieService movieService)
+        public MovieController(IMovieService movieService, IValidator<CreateMovieDto> validator)
         {
             _movieService = movieService;
+            _validator = validator;
         }
 
         [HttpGet]
@@ -48,8 +51,12 @@ namespace Projekt.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult Create([FromBody] CreateMovieDto dto)
         {
-            int id = _movieService.Create(dto);
-
+            var validationResult = _validator.Validate(dto);
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult);
+            }
+            var id = _movieService.Create(dto);
             var actionName = nameof(Get);
             var routeValues = new { id };
             return CreatedAtAction(actionName, routeValues, null);
